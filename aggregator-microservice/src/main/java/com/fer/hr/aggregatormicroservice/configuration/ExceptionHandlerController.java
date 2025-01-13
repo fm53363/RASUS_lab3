@@ -12,12 +12,7 @@ import java.util.UUID;
 @ControllerAdvice
 public class ExceptionHandlerController {
 
-    @ExceptionHandler(Exception.class)
-    public final ResponseEntity<String> handleAnyException(Exception exception) {
-        var uuid = UUID.randomUUID().toString();
-        String errorMessage = String.format("An unexpected error occurred. Reference ID: %s", uuid);
-        return ResponseEntity.internalServerError().body(errorMessage);
-    }
+
 
     @ExceptionHandler(TemperatureNotFoundException.class)
     public final ResponseEntity<String> handleTemperatureNotFoundException(TemperatureNotFoundException exception) {
