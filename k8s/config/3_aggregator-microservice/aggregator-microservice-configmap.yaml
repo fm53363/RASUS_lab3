@@ -1,0 +1,8 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: aggregator-microservice-config
+data:
+  temperature.service.url: "http://temperature-service:8080"
+  temperature.unit: "C"
+  humidity.service.url: "http://humidity-service:8080"

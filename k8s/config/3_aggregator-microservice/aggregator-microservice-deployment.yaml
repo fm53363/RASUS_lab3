@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: aggregator-microservice-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: aggregator-microservice
+  template:
+    metadata:
+      labels:
+        app: aggregator-microservice
+    spec:
+      containers:
+        - name: aggregator-microservice
+          image: aggregator-microservice:0.0.1-SNAPSHOT
+          ports:
+            - containerPort: 8080
+          env:
+            - name: TEMPERATURE_SERVICE_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: aggregator-microservice-config
+                  key: temperature.service.url
+            - name: TEMPERATURE_UNIT
+              valueFrom:
+                configMapKeyRef:
+                  name: aggregator-microservice-config
+                  key: temperature.unit
+            - name: HUMIDITY_SERVICE_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: aggregator-microservice-config
+                  key: humidity.service.url

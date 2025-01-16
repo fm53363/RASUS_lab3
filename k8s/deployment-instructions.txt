@@ -1,0 +1,40 @@
+--------------------temperature-microservice---------------------------------------------------
+
+otvoriti intelliJ projekt: temperature-microservice
+
+./gradlew bootBuildImage
+kubectl apply -f k8s/config/1_temperature-microservice/temperature-microservice-configmap.yaml
+kubectl apply -f k8s/config/1_temperature-microservice/temperature-microservice-deployment.yaml
+kubectl apply -f k8s/config/1_temperature-microservice/temperature-microservice-service.yaml
+
+kubectl port-forward deployments/temperature-microservice-deployment 8081:8080
+--------------------humidity-microservice---------------------------------------------------------
+otvoriti intelliJ projekt: humidity-microservice
+
+./gradlew bootBuildImage
+
+kubectl apply -f k8s/config/2_humidity-microservice/humidity-microservice-configmap.yaml
+kubectl apply -f k8s/config/2_humidity-microservice/humidity-microservice-deployment.yaml
+kubectl apply -f k8s/config/2_humidity-microservice/humidity-microservice-service.yaml
+
+kubectl port-forward deployments/humidity-microservice-deployment 8082:8080
+
+--------------------aggregator-microservice-------------------------------------------------------
+
+otvoriti intelliJ projekt: aggregator-microservice
+
+./gradlew bootBuildImage
+
+ kubectl apply -f k8s/config/3_aggregator-microservice/aggregator-microservice-configmap.yaml
+ kubectl apply -f k8s/config/3_aggregator-microservice/aggregator-microservice-deployment.yaml
+ kubectl apply -f k8s/config/3_aggregator-microservice/aggregator-microservice-service.yaml
+ kubectl apply -f k8s/config/3_aggregator-microservice/aggregator-microservice-route.yaml
+
+
+kubectl port-forward deployments/aggregator-microservice-deployment 8080:8080
+
+
+GET http://localhost:8080/measurements/aggregate
+
+
+
