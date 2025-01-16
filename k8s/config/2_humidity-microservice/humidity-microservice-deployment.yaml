@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: humidity-microservice-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: humidity-microservice
+  template:
+    metadata:
+      labels:
+        app: humidity-microservice
+    spec:
+      containers:
+        - name: humidity-microservice
+          image: humidity-microservice:0.0.1-SNAPSHOT
+          ports:
+            - containerPort: 8080
+          env:
+            - name: BROKER_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: humidity-microservice-config
+                  key: broker-url
