@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: temperature-microservice-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: temperature-microservice
+  template:
+    metadata:
+      labels:
+        app: temperature-microservice
+    spec:
+      containers:
+        - name: temperature-microservice
+          image: temperature-microservice:0.0.1-SNAPSHOT
+          ports:
+            - containerPort: 8080
+          env:
+            - name: BROKER_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: temperature-microservice-config
+                  key: broker-url
